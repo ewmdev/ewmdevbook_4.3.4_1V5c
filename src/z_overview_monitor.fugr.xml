@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_FUGR" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <AREAT>Overview Monitor</AREAT>
+   <INCLUDES>
+    <SOBJ_NAME>/SCWM/LSTOCK_OVERVIEW_MONF01</SOBJ_NAME>
+    <SOBJ_NAME>/SCWM/LSTOCK_OVERVIEW_MONF02</SOBJ_NAME>
+    <SOBJ_NAME>LZ_OVERVIEW_MONITORF01</SOBJ_NAME>
+    <SOBJ_NAME>LZ_OVERVIEW_MONITORTOP</SOBJ_NAME>
+    <SOBJ_NAME>SAPLZ_OVERVIEW_MONITOR</SOBJ_NAME>
+   </INCLUDES>
+   <FUNCTIONS>
+    <item>
+     <FUNCNAME>Z_EWM_AVLSTOCK_NO_BINS_MON</FUNCNAME>
+     <SHORT_TEXT>Overview of Available Stock in Monitor</SHORT_TEXT>
+     <IMPORT>
+      <RSIMP>
+       <PARAMETER>IV_LGNUM</PARAMETER>
+       <REFERENCE>X</REFERENCE>
+       <TYP>/SCWM/LGNUM</TYP>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>IV_VARIANT</PARAMETER>
+       <OPTIONAL>X</OPTIONAL>
+       <REFERENCE>X</REFERENCE>
+       <TYP>VARIANT</TYP>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>IV_MODE</PARAMETER>
+       <DEFAULT>&apos;1&apos;</DEFAULT>
+       <REFERENCE>X</REFERENCE>
+       <TYP>/SCWM/DE_MON_FM_MODE</TYP>
+      </RSIMP>
+     </IMPORT>
+     <CHANGING>
+      <RSCHA>
+       <PARAMETER>CT_TAB_RANGE</PARAMETER>
+       <OPTIONAL>X</OPTIONAL>
+       <REFERENCE>X</REFERENCE>
+       <TYP>RSDS_TRANGE</TYP>
+      </RSCHA>
+     </CHANGING>
+     <EXPORT>
+      <RSEXP>
+       <PARAMETER>ET_DATA</PARAMETER>
+       <REFERENCE>X</REFERENCE>
+       <TYP>/SCWM/TT_AQUA_ALL_MON</TYP>
+      </RSEXP>
+      <RSEXP>
+       <PARAMETER>EV_RETURNCODE</PARAMETER>
+       <REFERENCE>X</REFERENCE>
+       <TYP>XFELD</TYP>
+      </RSEXP>
+      <RSEXP>
+       <PARAMETER>EV_VARIANT</PARAMETER>
+       <REFERENCE>X</REFERENCE>
+       <TYP>VARIANT</TYP>
+      </RSEXP>
+     </EXPORT>
+     <EXCEPTION>
+      <RSEXC>
+       <EXCEPTION>/SCWM/CX_MON_NOEXEC</EXCEPTION>
+      </RSEXC>
+     </EXCEPTION>
+     <DOCUMENTATION>
+      <RSFDO>
+       <PARAMETER>IV_LGNUM</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Lagernummer/Lagerkomplex</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>IV_VARIANT</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>ABAP: Name einer Variante (ohne Programmname)</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>IV_MODE</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Modus für Funktionsbausteine im WM Monitor</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>ET_DATA</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Bestandsübersicht Monitor</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>EV_RETURNCODE</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Feld zum Ankreuzen</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>EV_VARIANT</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>ABAP: Name einer Variante (ohne Programmname)</STEXT>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>CT_TAB_RANGE</PARAMETER>
+       <KIND>P</KIND>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>/SCWM/CX_MON_NOEXEC</PARAMETER>
+       <KIND>X</KIND>
+       <STEXT>Special Exception Class for Monitor to Prevent Query Exec.</STEXT>
+      </RSFDO>
+     </DOCUMENTATION>
+     <EXCEPTION_CLASSES>X</EXCEPTION_CLASSES>
+    </item>
+   </FUNCTIONS>
+  </asx:values>
+ </asx:abap>
+</abapGit>

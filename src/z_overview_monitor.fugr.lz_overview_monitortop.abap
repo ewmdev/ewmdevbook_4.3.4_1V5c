@@ -13,7 +13,8 @@ TYPES:
     zz_prod_dat   TYPE /scwm/sp_pddat,
   END OF lsty_btch_val,
   ltty_btch_val TYPE STANDARD TABLE OF lsty_btch_val.
-CONSTANTS: gc_vbtch TYPE atnam VALUE 'MCHA_LICHA'.
+CONSTANTS: gc_vbtch TYPE atnam VALUE 'LOBM_LICHA',
+           gc_hsdat TYPE atnam VALUE 'LOBM_HSDAT'.
 DATA:
   functxt        TYPE smp_dyntxt,
   gs_tabname     TYPE /scwm/s_tabname_alias,

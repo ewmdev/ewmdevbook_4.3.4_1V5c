@@ -64,6 +64,7 @@ FORM lagp_mapping
         'X'               TO ls_mapping-is_key.
   APPEND ls_mapping       TO ct_mapping.
 
+
 ENDFORM.                    " lagp_mapping
 
 
@@ -119,6 +120,12 @@ FORM aqua_mapping
         'CHARG'           TO ls_mapping-fieldname,
         'X'               TO ls_mapping-is_key.
   APPEND ls_mapping       TO ct_mapping.
+  CLEAR ls_mapping-is_key.
+  MOVE: '/SCWM/AQUA'      TO ls_mapping-tablename,
+        'S_STKSEG'        TO ls_mapping-selname,
+        'STK_SEG_LONG'    TO ls_mapping-fieldname,
+        'X'               TO ls_mapping-is_key.
+  APPEND ls_mapping       TO ct_mapping.
 
 ENDFORM.                    " aqua_mapping
 
@@ -147,7 +154,6 @@ FORM huident_mapping
         'S_P_MAT'           TO ls_mapping-selname,
         'PMAT_GUID'         TO ls_mapping-fieldname.
   CLEAR ls_mapping-is_key.
-  APPEND ls_mapping         TO ct_mapping.
   MOVE: '/SCWM/HUHDR'       TO ls_mapping-tablename,
         'S_PMTYP'           TO ls_mapping-selname,
         'PMTYP'             TO ls_mapping-fieldname.
@@ -186,6 +192,16 @@ FORM huident_mapping
   MOVE: '/SCWM/HUHDR'       TO ls_mapping-tablename,
         'S_IDENT'           TO ls_mapping-selname,
         'IDENT'             TO ls_mapping-fieldname.
+  APPEND ls_mapping         TO ct_mapping.
+  CLEAR ls_mapping-is_key.
+  MOVE: '/SCWM/HUHDR'       TO ls_mapping-tablename,
+        'S_PSID'            TO ls_mapping-selname,
+        'PSID'              TO ls_mapping-fieldname.
+  APPEND ls_mapping         TO ct_mapping.
+  CLEAR ls_mapping-is_key.
+  MOVE: '/SCWM/HUHDR'       TO ls_mapping-tablename,
+        'S_PIID'            TO ls_mapping-selname,
+        'PIID'              TO ls_mapping-fieldname.
   APPEND ls_mapping         TO ct_mapping.
   CLEAR ls_mapping-is_key.
 
@@ -275,6 +291,26 @@ FORM pas_mapping
   MOVE: '/SCWM/PRALLSTCK'       TO ls_mapping-tablename,
         'S_ITMNO'           TO ls_mapping-selname,
         'REF_ITMNO'             TO ls_mapping-fieldname.
+  CLEAR ls_mapping-is_key.
+  APPEND ls_mapping         TO ct_mapping.
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form wip_mapping
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM wip_mapping
+  CHANGING ct_mapping TYPE /scwm/tt_map_selopt2field.
+
+  DATA: ls_mapping TYPE /scwm/s_map_selopt2field.
+
+  MOVE: '/SCWM/WIPMAP'       TO ls_mapping-tablename,
+        'S_WIP_NO'           TO ls_mapping-selname,
+        'WIP_NO'         TO ls_mapping-fieldname.
   CLEAR ls_mapping-is_key.
   APPEND ls_mapping         TO ct_mapping.
 

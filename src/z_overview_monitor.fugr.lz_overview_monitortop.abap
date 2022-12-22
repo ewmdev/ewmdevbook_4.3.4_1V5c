@@ -2,7 +2,7 @@ FUNCTION-POOL z_overview_monitor.           "MESSAGE-ID ..
 
 * INCLUDE LZ_OVERVIEW_MONITORD...            " Local class definition
 
-* 1. Global data
+"1. Global data
 TYPE-POOLS: rsds, wmegc, abap, icon.
 TABLES: sscrfields, /scwm/s_ui_mon_suom_change.
 TYPES:
@@ -10,7 +10,7 @@ TYPES:
     matid         TYPE /scwm/de_matid,
     batchid       TYPE /scwm/de_batchid,
     zz_vend_batch TYPE /scwm/de_charg,
-    zz_prod_dat   TYPE /scwm/sp_pddat,
+    zz_prod_dat   TYPE /scwm/de_bprod_date,
   END OF lsty_btch_val,
   ltty_btch_val TYPE STANDARD TABLE OF lsty_btch_val.
 CONSTANTS: gc_vbtch TYPE atnam VALUE 'LOBM_LICHA',
@@ -30,13 +30,13 @@ DATA:
   gv_free_sel    TYPE char255,
   go_mon_stock   TYPE REF TO /scwm/cl_mon_stock,
   gt_btchval     TYPE ltty_btch_val.
-*Additional declarations S4
+"Additional declarations S4
 DATA gv_txt02.
 DATA p_altme.
 DATA p_quana.
 DATA p_meins.
 DATA p_quan.
-* 2. Build selection-screen 100
+"2. Build selection-screen 100
 SELECTION-SCREEN BEGIN OF SCREEN 100 AS WINDOW.
   SELECTION-SCREEN BEGIN OF BLOCK warehouse.
     PARAMETERS:
@@ -67,7 +67,7 @@ SELECTION-SCREEN BEGIN OF SCREEN 100 AS WINDOW.
   SELECTION-SCREEN: FUNCTION KEY 2.
   SELECTION-SCREEN: FUNCTION KEY 3.
 SELECTION-SCREEN END OF SCREEN 100.
-*3. Include of standard routines
+"3. Include of standard routines
 INCLUDE:
 /scwm/lstock_overview_monf01,
 /scwm/lstock_overview_monf02.

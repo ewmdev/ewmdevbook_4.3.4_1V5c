@@ -11,9 +11,9 @@ FORM batch_val USING
     lt_whbatch    TYPE /scwm/tt_batch,
     lo_batch_appl TYPE REF TO /scwm/cl_batch_appl.
 
-* 1 clear buffers
+  "1 Clear buffers
   /scwm/cl_batch_appl=>cleanup( ).
-* 2 check for REFRESH-Mode
+  "2 Check for REFRESH-Mode
   IF iv_mode NE 4.
     CLEAR gt_btchval.
   ENDIF.
@@ -29,7 +29,7 @@ FORM batch_val USING
   LOOP AT lt_whbatch INTO ls_whbatch
     WHERE matid   IS NOT INITIAL
     AND   batchid IS NOT INITIAL.
-* 3 if we have the record in buffer – we use it
+    "3 If we have the record in buffer – we use it
     IF iv_mode EQ 4.
       READ TABLE gt_btchval TRANSPORTING NO FIELDS
         WITH KEY matid   = ls_whbatch-matid
@@ -37,7 +37,7 @@ FORM batch_val USING
       BINARY SEARCH.
       CHECK NOT sy-subrc = 0.
     ENDIF.
-* 4 get instance
+    "4 Get instance
     TRY.
         lo_batch_appl ?= /scwm/cl_batch_appl=>get_instance(
         iv_productid = ls_whbatch-matid
@@ -46,11 +46,11 @@ FORM batch_val USING
       CATCH /scwm/cx_batch_management.
         CONTINUE.
     ENDTRY.
-* 5 get batch and values
+    "5 Get batch and values
     TRY.
         lo_batch_appl->get_batch(
-*          EXPORTING
-*            iv_no_classification = abap_true
+        EXPORTING
+          iv_no_classification = abap_true "remove if necessary
           IMPORTING
             es_batch    = DATA(ls_batch)
             et_val_num  = DATA(lt_val_num)
@@ -58,21 +58,25 @@ FORM batch_val USING
             et_val_curr = DATA(lt_val_curr) ).
       CATCH /scwm/cx_batch_management.
     ENDTRY.
-*6 fill global table
+    "6 Fill global table
     READ TABLE lt_val_char ASSIGNING FIELD-SYMBOL(<val_char>)
       WITH KEY charact = gc_vbtch.
     IF sy-subrc = 0.
       DATA(ls_btchval) = VALUE lsty_btch_val( zz_vend_batch = <val_char>-value_char ).
+    ENDIF.
+    IF ls_batch-vendrbatch_used = abap_true.
+      ls_btchval-zz_vend_batch = ls_batch-vendrbatch.
     ENDIF.
     READ TABLE lt_val_num ASSIGNING FIELD-SYMBOL(<val_num>)
       WITH KEY charact = gc_hsdat.
     IF sy-subrc = 0.
       ls_btchval-zz_prod_dat = CONV date( <val_num>-value_from ).
     ENDIF.
+    IF ls_batch-prod_date_used = abap_true.
+      ls_btchval-zz_prod_dat = ls_batch-prod_date.
+    ENDIF.
     ls_btchval = CORRESPONDING #( BASE ( ls_btchval ) ls_batch ).
-*    DATA(ls_btchval) = CORRESPONDING lsty_btch_val( ls_batch MAPPING
-*                                                    zz_prod_dat   = prod_date
-*                                                    zz_vend_batch = vendrbatch ).
+
     APPEND ls_btchval TO gt_btchval.
 
   ENDLOOP.

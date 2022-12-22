@@ -19,9 +19,11 @@ FUNCTION z_ewm_avlstock_no_bins_mon.
     lv_repid   TYPE sy-repid,
     lt_mapping TYPE /scwm/tt_map_selopt2field.
 
+  BREAK-POINT ID zewmdevbook_1v5c.
+
   lv_repid = sy-repid.
   CLEAR gt_tabname.
-* 1 Only display popup and exit
+  "1 Only display popup and exit
   IF iv_mode = '3'.
     CALL FUNCTION 'RS_VARIANT_CATALOG'
       EXPORTING
@@ -43,19 +45,19 @@ FUNCTION z_ewm_avlstock_no_bins_mon.
     ENDIF.
     RETURN.
   ENDIF.
-* 2 Initialization (clear screen elements)
+  "2 Initialization (clear screen elements)
   PERFORM initialization
     USING
       iv_lgnum
       lv_repid
     CHANGING
       et_data.
-* 3 Fill mapping table
+  "3 Fill mapping table
   PERFORM aqua_mapping    CHANGING lt_mapping.
   PERFORM bin_ind_mapping CHANGING lt_mapping.
   PERFORM ybtch_mapping   CHANGING lt_mapping.
   IF iv_variant IS NOT INITIAL.
-* 4 Use selection criteria
+    "4 Use selection criteria
     CALL FUNCTION 'RS_SUPPORT_SELECTIONS'
       EXPORTING
         report               = lv_repid
@@ -82,7 +84,7 @@ FUNCTION z_ewm_avlstock_no_bins_mon.
     p_ybtch = 'X'.
   ENDIF.
   IF iv_mode = '1'.
-* 6 Show selection screen
+    "5 Show selection screen
     p_lgnum = iv_lgnum.
     CALL SELECTION-SCREEN '0100' STARTING AT 10 10
     ENDING AT 130 30.
@@ -91,25 +93,25 @@ FUNCTION z_ewm_avlstock_no_bins_mon.
       RETURN.
     ENDIF.
   ENDIF.
-* Prepare WHERECLAUSE
+  "Prepare WHERECLAUSE
   CLEAR gt_tabname.
   PERFORM aqua_alias.
-* Convert free select-options to where clause
+  "Convert free select-options to where clause
   CALL FUNCTION '/SCWM/SFREE2WHERE4MON'
     EXPORTING
       it_tabname     = gt_tabname
       it_selopt      = s_free[]
     IMPORTING
       et_whereclause = gt_whereclause.
-* Export selection criteria
+  "Export selection criteria
   CALL FUNCTION '/SCWM/SELOPT2RANGETAB'
     EXPORTING
       iv_repid     = lv_repid
       it_mapping   = lt_mapping
     IMPORTING
       et_tab_range = ct_tab_range.
-* 7. Select the data according to selection criteria
-* 8. convert ui fields
+  "6. Select the data according to selection criteria
+  "7. Convert ui fields
   CALL METHOD go_mon_stock->get_available_stock
     EXPORTING
       iv_skip_bin      = p_lgpla
@@ -124,13 +126,13 @@ FUNCTION z_ewm_avlstock_no_bins_mon.
     IMPORTING
       et_stock_mon     = DATA(lt_stock_mon)
       ev_error         = ev_returncode.
-* Fill extensions (Y36D)
+  "Fill extensions (1V5c)
   CHECK NOT lt_stock_mon IS INITIAL.
   IF p_ybtch IS INITIAL.
     PERFORM batch_val USING lt_stock_mon iv_mode.
     SORT gt_btchval BY matid batchid.
   ENDIF.
-* Fill exporting table
+  "Fill exporting table
   LOOP AT lt_stock_mon ASSIGNING FIELD-SYMBOL(<fs_stock_mon>).
     DATA(ls_data) = CORRESPONDING /scwm/s_aqua_all_mon(
                       <fs_stock_mon> MAPPING
